@@ -33,6 +33,8 @@ class Comment extends React.Component {
   render() {
     return(
       <div className="comment">
+      <img src = {this.props.avatarUrl} alt = {`${this.props.author}'s picture`}/>
+
         <p className="comment-header">
           {this.props.author}
         </p>
