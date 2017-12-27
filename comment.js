@@ -3,24 +3,36 @@ class CommentBox extends React.Component {
     super();
 
     this.state = {
-      showComments: false;
+      showComments: false,
+      isAbusive: false,
     };
   }
-  
+
   render() {
     const comments = this._getComments() || [];
     let commentNodes;
     if (this.state.showComments){
       commentNodes = <div className="comment-list">{comments}</div>
     }
+    let buttonText = "Show Comments";
+    if (this.state.showComments){
+      buttonText = "Hide comments";
+    }
     return(
       <div className="comment-box">
+        <button onClick={this._handleClick.bind(this)}>{buttonText}</button>
         <h3>Comments</h3>
         {this._getPopularMessage(comments.length)}
         <h4 className="comment-count">{this._getCommentsTitle(comments.length)} comments</h4>
         {commentNodes}
       </div>
     );
+  }
+
+  _handleClick(){
+    this.setState({
+      showComments: !this.state.showComments
+    });
   }
 
   _getPopularMessage(commentCount) {
@@ -63,7 +75,21 @@ class CommentBox extends React.Component {
 
 
 class Comment extends React.Component {
+  _toggleAbuse(event){
+    event.preventDefault();
+
+    this.setState({
+      isAbusive: !this.state.isAbusive
+    })
+
+  }
   render() {
+    let commentBody;
+    if (!this.state.isAbusive) {
+      commentbody = this.props.body
+    } else {
+      commentBody = <em>Content marked as abusive
+    }
     return(
       <div className="comment">
       <img src = {this.props.avatarUrl} alt = {`${this.props.author}'s picture`}/>
@@ -72,10 +98,11 @@ class Comment extends React.Component {
           {this.props.author}
         </p>
         <p className="comment-body">
-          {this.props.body}
+          {commentBody}
         </p>
         <div className="comment-actions">
           <a href="#">Delete comment</a>
+          <a href="#" onClick={this._toggleAbuse.bind(this)}>Report as Abusive</a>
         </div>
       </div>
     );
