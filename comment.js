@@ -5,7 +5,7 @@ class CommentBox extends React.Component {
       <div className="comment-box">
         <h3>Comments</h3>
         {this._getPopularMessage(comments.length)}
-        <h4 className="comment-count">{comments.length} comments</h4>
+        <h4 className="comment-count">{this._getCommentsTitle(comments.length)} comments</h4>
         <div className="comment-list">
           {comments}
         </div>
