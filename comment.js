@@ -4,12 +4,25 @@ class CommentBox extends React.Component {
     return(
       <div className="comment-box">
         <h3>Comments</h3>
+        {this._getPopularMessage(comments.length)}
         <h4 className="comment-count">{comments.length} comments</h4>
         <div className="comment-list">
           {comments}
         </div>
       </div>
     );
+  }
+
+  _getPopularMessage(commentCount) {
+    const POPULAR_COUNT = 10;
+
+    if(commentCount > POPULAR_COUNT) {
+      return(
+         <div>
+            This post is getting really popular, dont miss out!
+         </div>
+      );
+    }
   }
 
   _getComments() {
@@ -25,6 +38,16 @@ class CommentBox extends React.Component {
                avatarUrl={comment.avatarUrl}
                key={comment.id} />);
     });
+  }
+
+  _getCommentsTitle(commentCount) {
+    if (commentCount === 0) {
+      return 'No comments yet';
+    } else if (commentCount === 1) {
+      return '1 comment';
+    } else {
+      return `${commentCount} comments`;
+    }
   }
 }
 
